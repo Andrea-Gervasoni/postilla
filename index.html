@@ -67,7 +67,8 @@ transition:transform .22s var(--curva),box-shadow .22s var(--curva)}
 .fab:hover{transform:translateY(-3px) scale(1.02);box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 16px 34px rgba(0,0,0,.45),0 0 0 10px rgba(53,227,155,.13)}
 .fab:active{transform:scale(.97)}
 .fab-t{white-space:nowrap}
-@media (max-width:560px){.fab{height:60px;padding:0 20px}.fab-t{display:none}}
+@media (max-width:560px){.fab{height:60px;padding:0 20px;gap:10px;font-size:16px}}
+@media (max-width:330px){.fab-t{display:none}}
 .avatar{width:40px;height:40px;font-size:16px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:15px;color:#0A1F16;background-image:linear-gradient(150deg,#9BF5D5,#35E39B 55%,#12B87A);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 2px 8px rgba(0,0,0,.3)}
 .marchio{width:30px;height:30px;border-radius:9px;flex:none;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:800;font-size:17px;color:#0A1F16;background-image:var(--grana),linear-gradient(160deg,#7FF0C4,#35E39B 52%,#12B87A);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 3px 10px rgba(0,0,0,.3)}
 .vocemenu{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:48px;padding:0 16px;border:none;background:none;color:var(--luce-0);font-size:16px;font-weight:500;cursor:pointer;text-align:left;border-radius:12px}
@@ -1149,7 +1150,7 @@ body.scala-grande
   </sc-if>
 
   <sc-if value="{{ avvisoAperto }}" hint-placeholder-val="{{ false }}">
-    <div class="vetro" role="status" style="position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:90;padding:13px 20px;font-size:15px;color:var(--luce-0);animation:entra .3s var(--curva) both;max-width:min(92vw,420px);text-align:center">{{ avviso }}</div>
+    <div class="vetro" role="status" onClick="{{ chiudiAvviso }}" style="position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:90;padding:13px 20px;font-size:15px;color:var(--luce-0);animation:entra .3s var(--curva) both;max-width:min(92vw,420px);text-align:center;cursor:pointer">{{ avviso }}</div>
   </sc-if>
 </div>
 </x-dc>
@@ -1504,9 +1505,16 @@ class Component extends DCLogic {
     try { localStorage.setItem(k, JSON.stringify(v)); }
     catch (e) { this.mostraAvviso(this.d().avv.pieno); }
   }
+  // Il timer di chiusura sta fuori da this.timers: chi mostra un avviso spesso
+  // cambia subito schermata, e goTo() azzera this.timers lasciando l'avviso fisso.
   mostraAvviso(t) {
+    clearTimeout(this.timerAvviso);
     this.setState({ avviso: t });
-    this.timers.push(setTimeout(() => this.setState({ avviso: '' }), 4200));
+    this.timerAvviso = setTimeout(() => this.setState({ avviso: '' }), 4200);
+  }
+  chiudiAvviso() {
+    clearTimeout(this.timerAvviso);
+    this.setState({ avviso: '' });
   }
   componentDidMount() {
     this.riduci = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1547,7 +1555,7 @@ this.suScroll = () => {
       if (box && box.scrollTop === 0 && this.vScroll > 0) box.scrollTop = this.vScroll;
     }
   }
-  componentWillUnmount() { this.clearTimers(); document.removeEventListener('scroll', this.suScroll, { capture: true }); if (this.io) this.io.disconnect(); }
+  componentWillUnmount() { this.clearTimers(); clearTimeout(this.timerAvviso); document.removeEventListener('scroll', this.suScroll, { capture: true }); if (this.io) this.io.disconnect(); }
   scroller() {
     const el = document.scrollingElement || document.documentElement;
     return el.scrollHeight > el.clientHeight + 1 ? el : document.body;
@@ -2339,7 +2347,7 @@ this.suScroll = () => {
       modaleConferma: () => this.confermaModale(),
       chiudiModale: () => this.setState({ modale: null, modaleTesto: '' }),
       modaleBtnBg: st.modale === 'cancella' ? 'linear-gradient(180deg,#FF8A7A,#FF6E5C 45%,#E4553F)' : 'var(--grana),linear-gradient(180deg,#63EEB4,#35E39B 45%,#17C283)',
-      avvisoAperto: !!st.avviso, avviso: st.avviso,
+      avvisoAperto: !!st.avviso, avviso: st.avviso, chiudiAvviso: () => this.chiudiAvviso(),
     };
   }
 }
