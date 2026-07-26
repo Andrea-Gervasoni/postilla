@@ -1,5 +1,4 @@
 export default async function handler(req, res) {
-  // Abilita CORS e sicurezza per il browser
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
@@ -14,7 +13,6 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Metodo non consentito' });
   }
 
-  // Prende la chiave segreta che hai appena salvato su Vercel
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     return res.status(500).json({ error: 'Chiave API non configurata su Vercel' });
@@ -26,57 +24,53 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Nessuna immagine fornita' });
     }
 
-    // Separa il formato immagine dai dati base64
-    const match = immagine.match(/^data:(.+);base64,(.+)$/);
-    const mediaType = match ? match[1] : 'image/jpeg';
-    const base64Data = match ? match[2] : immagine;
+    let mediaType = 'image/jpeg';
+    let base64Data = immagine;
 
-    // Il prompt chirurgico che costringe Claude a restituire solo le prove reali
+    if (immagine.includes('data:') && immagine.includes('base64,')) {
+      const match = immagine.match(/^data:(.+);base64,(.+)$/);
+      if (match) {
+        mediaType = match[1];
+        base64Data = match[2];
+      }
+    }
+
     const prompt = `Analizza l'immagine di questo documento burocratico, fiscale o legale italiano.
 Compila ESATTAMENTE e SOLO il seguente formato JSON (senza commenti o testo fuori dal JSON):
 {
   "testoTrascritto": "Trascrizione fedele delle parole chiave del documento",
   "estratto": {
-    "mittente": "Nome dell'ente o azienda che invia (es. Comune, Agenzia delle Entrate, Banca)",
+    "mittente": "Nome dell'ente o azienda che invia",
     "citazione_mittente": "La frase esatta nel testo che indica il mittente",
     "oggetto": "Di cosa si tratta in 3 o 4 parole",
     "citazione_oggetto": "La frase esatta nel testo che indica l'oggetto",
-    "sintesi_operativa": "Una frase chiara su cosa deve fare l'utente e per cosa",
-    "importo_totale": "L'importo da pagare es. 1.284,50 € (se non c'è, scrivi Nessuna richiesta economica)",
-    "data_scadenza": "Entro quando es. 2 agosto 2026 (se non c'è, scrivi Nessuna scadenza)",
-    "data_scadenza_iso": "YYYY-MM-DD (es. 2026-08-02, calcola la data ISO precisa, se manca usa 2026-12-31)",
+    "sintesi_operativa": "Una frase chiara su cosa deve fare l'utente",
+    "importo_totale": "L'importo da pagare o Nessuna richiesta economica",
+    "data_scadenza": "Entro quando o Nessuna scadenza",
+    "data_scadenza_iso": "YYYY-MM-DD",
     "obblighi": [
-      { "spiegazione": "Cosa fare es. Paga 1.284,50 €", "citazione_esatta": "Frase esatta e testuale dal documento che lo prova" },
-      { "spiegazione": "Altra opzione es. Chiedi di pagare a rate", "citazione_esatta": "Frase esatta e testuale dal documento che lo prova" }
+      { "spiegazione": "Cosa fare", "citazione_esatta": "Frase testuale dal documento" }
     ],
     "conseguenze": [
-      { "spiegazione": "Cosa succede se non paghi o ignori", "citazione_esatta": "Frase esatta e testuale dal documento che lo prova" },
-      { "spiegazione": "Es. Fermo amministrativo o sanzioni", "citazione_esatta": "Frase esatta e testuale dal documento che lo prova" }
+      { "spiegazione": "Cosa succede se ignori", "citazione_esatta": "Frase testuale dal documento" }
     ],
     "diritti": [
-      { "spiegazione": "Cosa può fare l'utente es. Ricorso entro 60 giorni", "citazione_esatta": "Frase esatta e testuale dal documento che lo prova" },
-      { "spiegazione": "Es. Chiedere la sospensione o chiarimenti", "citazione_esatta": "Frase esatta e testuale dal documento che lo prova" }
+      { "spiegazione": "Cosa può fare l'utente", "citazione_esatta": "Frase testuale dal documento" }
     ],
     "informazioni_mancanti": [
-      "Cosa il documento non dice es. Non indica un numero di telefono chiaro per assistenza",
-      "Es. Non spiega come si calcola la cifra richiesta"
+      "Cosa il documento non dice"
     ],
     "spiegazione_semplice": [
-      "Il mittente dice che c'è una richiesta aperta.",
-      "Viene chiesto l'importo indicato.",
-      "Hai tempo fino alla data di scadenza.",
-      "Se ignori la lettera scattano le procedure di recupero.",
-      "Puoi contestare se ritieni sia un errore."
+      "Il mittente richiede un'azione.",
+      "Verifica la scadenza indicata."
     ],
     "glossario": [
-      { "termine": "Notifica", "spiegazione": "L'atto formale con cui ti viene consegnato il documento." },
-      { "termine": "Mora", "spiegazione": "Una penale in denaro che si aggiunge se paghi in ritardo." }
+      { "termine": "Notifica", "spiegazione": "Consegna formale dell'atto." }
     ]
   }
 }
-IMPORTANTE: Nel campo "citazione_esatta" devi riportare le parole TESTUALI PRECISE scritte nel documento in modo che un algoritmo di ricerca (indexOf) le trovi dentro "testoTrascritto". Ritorna SOLO il JSON valido.`;
+IMPORTANTE: Nel campo "citazione_esatta" riporta le parole TESTUALI presenti nel testo. Ritorna SOLO il JSON valido.`;
 
-    // Chiamata diretta ad Anthropic (senza bisogno di installare pacchetti npm!)
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -118,8 +112,6 @@ IMPORTANTE: Nel campo "citazione_esatta" devi riportare le parole TESTUALI PRECI
 
     const data = await response.json();
     const testoRisposta = data.content[0].text;
-
-    // Pulisci eventuali tag markdown dal JSON
     const jsonPulito = testoRisposta.replace(/^```json\s*/i, '').replace(/\s*```$/i, '').trim();
     const risultato = JSON.parse(jsonPulito);
 
