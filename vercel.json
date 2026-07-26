@@ -1,11 +1,6 @@
 {
-  "version": 2,
-  "builds": [
-    { "src": "api/estrai.js", "use": "@vercel/node" },
-    { "src": "index.html", "use": "@vercel/static" }
-  ],
-  "routes": [
-    { "src": "/api/estrai", "dest": "/api/estrai.js" },
-    { "src": "/(.*)", "dest": "/index.html" }
+  "rewrites": [
+    { "source": "/api/estrai", "destination": "/api/estrai.js" },
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }
