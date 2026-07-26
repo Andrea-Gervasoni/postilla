@@ -5,7 +5,6 @@
     }
   },
   "rewrites": [
-    { "source": "/api/estrai", "destination": "/api/estrai.js" },
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    { "source": "/((?!api/|.*\\..*).*)", "destination": "/index.html" }
   ]
 }
