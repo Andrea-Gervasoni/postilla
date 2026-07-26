@@ -144,13 +144,13 @@ transition:transform .22s var(--curva),box-shadow .22s var(--curva)}
 .att{transition:transform .35s var(--curva),box-shadow .35s var(--curva),border-color .35s var(--curva);transform-style:preserve-3d}
 .att:hover{transform:translateY(-5px) rotateX(4deg);box-shadow:inset 0 1px 0 rgba(243,239,228,.16),0 22px 46px rgba(0,0,0,.4)}
 .cta-testata{min-height:42px;padding:0 20px;font-size:15px;white-space:nowrap}
-@media (max-width:400px){.cta-testata{padding:0 14px;font-size:14px}.testo-piu{padding:0 8px;height:36px;gap:2px}.switch{width:66px;height:36px}.sw-knob{width:30px;height:30px}.sw-knob[data-en="1"]{transform:translateX(30px) rotate(200deg) !important}.bandiera{width:20px;height:20px}.sw-g{top:8px;width:20px;height:20px}.sw-l{left:8px}.sw-r{right:8px}}
-@media (max-width:430px){.logo-testo{display:none}}
+@media (max-width:400px){.cta-testata{padding:0 14px;font-size:14px}.switch{width:66px;height:36px}.sw-knob{width:30px;height:30px}.sw-knob[data-en="1"]{transform:translateX(30px) rotate(200deg) !important}.bandiera{width:20px;height:20px}.sw-g{top:8px;width:20px;height:20px}.sw-l{left:8px}.sw-r{right:8px}}
+@media (max-width:340px){.logo-testo{display:none}}
 @media (max-width:345px){.cta-testata{padding:0 10px;font-size:13px}.switch{width:58px}.sw-knob[data-en="1"]{transform:translateX(24px) rotate(200deg) !important}}
 /* Le media query non rivalutano lo zoom: con testo ingrandito imponiamo comunque la testata compatta. */
 body.scala-grande .logo-testo{display:none}
 body.scala-grande .cta-testata{padding:0 12px;font-size:14px}
-body.scala-grande .testo-piu{padding:0 8px;height:36px;gap:2px}
+body.scala-grande 
 .lingua{display:flex;align-items:center;gap:2px;padding:3px;border:1px solid var(--linea);border-radius:999px;background-color:rgba(9,32,21,.4);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:inset 0 1px 0 rgba(243,239,228,.1)}
 .lingua>button{min-height:32px;padding:0 13px;border:none;border-radius:999px;background-color:transparent;font-family:var(--sans);font-size:13px;letter-spacing:.04em;cursor:pointer;transition:background-color .18s var(--curva),color .18s var(--curva),box-shadow .18s var(--curva)}
 .lingua>button:hover{color:var(--luce-0)}
@@ -170,9 +170,10 @@ body.scala-grande .testo-piu{padding:0 8px;height:36px;gap:2px}
 .otturatore:active{transform:scale(.96)}
 .otturatore:focus-visible{outline:3px solid var(--v-chiaro);outline-offset:6px}
 .otturatore-anello{animation:respiro 2.6s ease-out infinite}
-.testo-piu{display:flex;align-items:baseline;gap:3px;height:40px;padding:0 12px;border-radius:999px;border:1px solid var(--linea-2);background-color:transparent;background-image:linear-gradient(180deg,rgba(243,239,228,.14),rgba(243,239,228,.06));color:var(--luce-1);cursor:pointer;transition:transform .2s var(--curva),border-color .2s var(--curva),color .2s var(--curva)}
-.testo-piu:hover{transform:translateY(-1px)}
-.testo-piu:focus-visible{outline:3px solid var(--v-chiaro);outline-offset:3px}
+.seg-testo{display:flex;gap:3px;padding:3px;border-radius:999px;background-color:rgba(243,239,228,.07);border:1px solid var(--linea-2);flex:none}
+.seg-a{display:flex;align-items:center;justify-content:center;width:30px;height:28px;border:none;border-radius:999px;background-color:transparent;cursor:pointer;font-family:var(--display);font-weight:800;line-height:1;transition:background-color .18s var(--curva),color .18s var(--curva)}
+.seg-a:hover{background-color:rgba(243,239,228,.1)}
+.seg-a:focus-visible{outline:2px solid var(--v-chiaro);outline-offset:2px}
 @keyframes anelloRuota{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 @keyframes saleSigillo{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes scintilla{0%,100%{opacity:0;transform:scale(.4)}50%{opacity:1;transform:scale(1)}}
@@ -187,10 +188,6 @@ body.scala-grande .testo-piu{padding:0 8px;height:36px;gap:2px}
         <span class="logo-testo" style="font-family:var(--display);font-weight:800;font-size:clamp(25px,6.6vw,30px);letter-spacing:-0.03em;color:var(--luce-0);line-height:1">Posti<span style="position:relative;display:inline-block"><span aria-hidden="true" style="position:absolute;left:-1px;right:-3px;bottom:0;height:.68em;background:var(--v-velo);border-radius:3px"></span><span style="position:relative">lla</span></span></span>
       </button>
       <div style="display:flex;align-items:center;gap:10px;min-width:0;flex:0 1 auto">
-      <button class="testo-piu" onClick="{{ commutaTesto }}" aria-label="{{ t.ariaTesto }}" title="{{ t.ariaTesto }}" style="border-color:{{ testoBordo }};background-image:{{ testoSfondo }};color:{{ testoColore }}">
-        <span aria-hidden="true" style="font-family:var(--display);font-weight:800;font-size:15px;line-height:1">A</span>
-        <span aria-hidden="true" style="font-family:var(--display);font-weight:800;font-size:21px;line-height:1">A</span>
-      </button>
       <button class="switch" onClick="{{ commutaLingua }}" role="switch" aria-checked="{{ ariaEn }}" aria-label="{{ t.ariaLingua }}">
         <span class="sw-g sw-l" aria-hidden="true"><span class="bandiera b-it"></span></span>
         <span class="sw-g sw-r" aria-hidden="true"><span class="bandiera b-en"></span></span>
@@ -204,10 +201,18 @@ body.scala-grande .testo-piu{padding:0 8px;height:36px;gap:2px}
           </button>
           <sc-if value="{{ menuAperto }}" hint-placeholder-val="{{ false }}">
             <div onClick="{{ chiudiMenu }}" style="position:fixed;inset:0;z-index:55"></div>
-            <div class="vetro menu-vetro" style="position:absolute;right:0;top:52px;z-index:56;width:272px;padding:8px;display:flex;flex-direction:column;animation:entra .22s var(--curva) both">
+            <div class="vetro menu-vetro" style="position:absolute;right:0;top:52px;z-index:56;width:min(302px,calc(100vw - 28px));padding:8px;display:flex;flex-direction:column;animation:entra .22s var(--curva) both">
               <div style="display:flex;align-items:center;gap:12px;padding:10px 12px 14px">
                 <span class="avatar" aria-hidden="true" style="width:42px;height:42px;font-size:17px">{{ iniziale }}</span>
                 <span><span style="display:block;font-size:16px;font-weight:600;color:var(--luce-0)">{{ nomeUtente }}</span><span style="display:block;font-size:15px;color:var(--luce-2)">{{ t.restaQui }}</span></span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;padding:0 16px">
+                <span style="font-size:16px;font-weight:500;color:var(--luce-0)">{{ t.dimensioneTesto }}</span>
+                <span class="seg-testo" role="group" aria-label="{{ t.dimensioneTesto }}">
+                  <sc-for list="{{ scaleTesto }}" as="sc" hint-placeholder-count="3">
+                    <button class="seg-a" onClick="{{ sc.scegli }}" aria-label="{{ sc.aria }}" aria-pressed="{{ sc.premuto }}" style="background-image:{{ sc.sfondo }};color:{{ sc.colore }};font-size:{{ sc.dim }}">A</button>
+                  </sc-for>
+                </span>
               </div>
               <button class="vocemenu" onClick="{{ apriCambiaNome }}">{{ t.cambiaNome }}</button>
               <button class="vocemenu" onClick="{{ commutaBacheca }}">{{ t.calScadenze }}
@@ -1216,7 +1221,7 @@ class Component extends DCLogic {
   DIZ = {
     it: {
       titolo: 'Postilla — capisci cosa ti hanno mandato', titoloDoc: 'Cartella esattoriale — Postilla',
-      ariaHome: 'Postilla — schermata iniziale', ariaProfilo: 'Il tuo profilo', ariaLingua: 'Lingua', ariaTesto: 'Ingrandisci il testo',
+      ariaHome: 'Postilla — schermata iniziale', ariaProfilo: 'Il tuo profilo', ariaLingua: 'Lingua', dimensioneTesto: 'Dimensione testo', dimTesto: ['Testo normale', 'Testo grande', 'Testo molto grande'],
       restaQui: 'Tutto resta su questo telefono', cambiaNome: 'Cambia nome', calScadenze: 'Calendario scadenze',
       comeFunziona: 'Come funziona', esporta: 'Esporta i tuoi dati', cancellaTutto: 'Cancella tutto', comincia: 'Comincia',
       occhiello: 'Lettere, multe, avvisi, bollette',
@@ -1330,7 +1335,7 @@ class Component extends DCLogic {
     },
     en: {
       titolo: 'Postilla — understand what they sent you', titoloDoc: 'Tax collection notice — Postilla',
-      ariaHome: 'Postilla — home', ariaProfilo: 'Your profile', ariaLingua: 'Language', ariaTesto: 'Make the text bigger',
+      ariaHome: 'Postilla — home', ariaProfilo: 'Your profile', ariaLingua: 'Language', dimensioneTesto: 'Text size', dimTesto: ['Normal text', 'Large text', 'Extra large text'],
       restaQui: 'Everything stays on this phone', cambiaNome: 'Change name', calScadenze: 'Deadline calendar',
       comeFunziona: 'How it works', esporta: 'Export your data', cancellaTutto: 'Delete everything', comincia: 'Get started',
       occhiello: 'Letters, fines, notices, bills',
@@ -1488,9 +1493,8 @@ class Component extends DCLogic {
     el.textContent = v > 1 ? 'body{zoom:' + v + ';width:calc(100vw / ' + v + ');overflow-x:hidden}' : '';
     if (document.body) document.body.classList.toggle('scala-grande', v > 1);
   }
-  commutaTesto() {
-    const i = this.SCALE.indexOf(this.state.scalaTesto);
-    const scalaTesto = this.SCALE[(i < 0 ? 0 : i + 1) % this.SCALE.length];
+  impostaScala(scalaTesto) {
+    if (this.SCALE.indexOf(scalaTesto) < 0 || scalaTesto === this.state.scalaTesto) return;
     this.applicaScala(scalaTesto);
     this.scriviLS('postilla:scalaTesto', scalaTesto);
     this.setState({ scalaTesto });
@@ -2296,10 +2300,17 @@ this.suScroll = () => {
       },
       vDati, contatore,
       vSigillo: st.vFase === 'sigillo', vFine: st.vFase === 'fine', vOnda: tuttiOk,
-      commutaTesto: () => this.commutaTesto(),
-      testoBordo: st.scalaTesto > 1 ? 'var(--v)' : 'var(--linea-2)',
-      testoColore: st.scalaTesto > 1 ? 'var(--v)' : 'var(--luce-1)',
-      testoSfondo: st.scalaTesto > 1 ? 'linear-gradient(180deg,rgba(53,227,155,.22),rgba(53,227,155,.1))' : 'linear-gradient(180deg,rgba(243,239,228,.14),rgba(243,239,228,.06))',
+      scaleTesto: this.SCALE.map((v, i) => {
+        const attivo = st.scalaTesto === v;
+        return {
+          dim: [15, 19, 23][i] + 'px',
+          aria: t.dimTesto[i],
+          premuto: attivo ? 'true' : 'false',
+          sfondo: attivo ? 'linear-gradient(180deg,#63EEB4,#35E39B 45%,#17C283)' : 'none',
+          colore: attivo ? '#07281B' : 'var(--luce-2)',
+          scegli: () => this.impostaScala(v),
+        };
+      }),
       vSigOk: tuttiOk, vSigKo: !tuttiOk,
       sigSotto: (tuttiOk ? t.sigSottoOk : t.sigSottoKo).split('{n}').join(String(nOk)).split('{t}').join(String(vTot)),
       sigColore: tuttiOk ? 'var(--v)' : 'var(--ambra)',
