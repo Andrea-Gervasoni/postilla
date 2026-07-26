@@ -1720,19 +1720,38 @@ this.suScroll = () => {
   }
   suggerisci(m) {
     const s = (m || '').toLowerCase();
-    if (/entrate|comune|riscossione|tributi/.test(s)) return 'tasse';
-    if (/condominio|amministra/.test(s)) return 'casa';
-    if (/assicura|polizza|motorizzazione/.test(s)) return 'auto';
+    if (/polizia|vigil|verbale|multa|sosta|autovelox|codice della strada|rimozione|veicolo|targa|assicura|polizza|motorizzazione|bollo auto/.test(s)) return 'auto';
+    if (/asl|ospedale|sanit|ticket|medic/.test(s)) return 'salute';
+    if (/inps|inail|pension|contribut|lavoro|busta paga/.test(s)) return 'lavoro';
+    if (/condominio|amministra|affitt|locazion|inquilin/.test(s)) return 'casa';
+    if (/entrate|riscossione|tributi|tassa|imposta|tari|imu|comune/.test(s)) return 'tasse';
     return 'altro';
   }
-  docDemo() {
+  docCorrente() {
+    const est = this.state.estrattoAttuale;
+    const estratto = { ...this.d().doc, dataScadenza: this.dataDemo() };
+    if (est) {
+      const obb = (est.obblighi || [])[0];
+      const iso = est.data_scadenza_iso || est.scadenza_iso || '';
+      if (est.mittente) estratto.mittente = est.mittente;
+      if (est.oggetto) { estratto.oggetto = est.oggetto; estratto.tipo = est.tipo || est.oggetto; }
+      const azione = est.importo_totale || (obb && (obb.spiegazione || obb.valore));
+      if (azione) estratto.azione = azione;
+      if (est.data_scadenza) estratto.data = est.data_scadenza;
+      if (/^\d{4}-\d{2}-\d{2}$/.test(iso) && !isNaN(new Date(iso + 'T23:59:59').getTime())) estratto.dataScadenza = iso;
+    }
     return {
       id: 'doc-' + Date.now(), salvatoIl: new Date().toISOString(),
-      estratto: { ...this.d().doc, dataScadenza: this.dataDemo() },
+      estratto,
       anteprima: this.anteprima || '',
       nomeFile: this.state.fileNome || '',
       pagine: Math.max(1, this.state.pagine.length),
     };
+  }
+  mittenteCorrente() {
+    const est = this.state.estrattoAttuale;
+    if (est) return [est.mittente, est.oggetto, est.sintesi_operativa].filter(Boolean).join(' ');
+    return [this.d().doc.mittente, this.d().doc.oggetto].filter(Boolean).join(' ');
   }
   dataDemo() {
     const g = Math.max(1, Math.round(this.props.giorniRimanenti ?? 9));
@@ -2110,10 +2129,10 @@ this.suScroll = () => {
       salvaAperto: st.salvaAperto, raccScelta,
       apriSalva: () => {
         if (!profilo) { this.mostraAvviso(t.avv.primaNome); this.goTo('accesso'); return; }
-        this.setState({ salvaAperto: !st.salvaAperto, salvaSel: this.suggerisci('Agenzia delle entrate-Riscossione') });
+        this.setState({ salvaAperto: !st.salvaAperto, salvaSel: this.suggerisci(this.mittenteCorrente()) });
       },
       confermaSalva: () => {
-        const doc = { ...this.docDemo(), raccoglitoreId: st.salvaSel };
+        const doc = { ...this.docCorrente(), raccoglitoreId: st.salvaSel };
         const documenti2 = [...documenti, doc];
         this.scriviLS('postilla:documenti', documenti2);
         const r = raccoglitori.find((x) => x.id === st.salvaSel);
