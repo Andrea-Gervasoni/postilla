@@ -38,7 +38,7 @@ export default async function handler(req, res) {
     const prompt = `Analizza l'immagine di questo documento burocratico, fiscale o legale italiano.
 Compila ESATTAMENTE e SOLO il seguente formato JSON (senza commenti o testo fuori dal JSON):
 {
-  "testoTrascritto": "Trascrizione fedele delle parole chiave del documento",
+  "testoTrascritto": "Trascrizione INTEGRALE e fedele di tutto il testo leggibile del documento, mantenendo le frasi complete e la loro forma originale, con a capo tra i paragrafi",
   "estratto": {
     "mittente": "Nome dell'ente o azienda che invia",
     "citazione_mittente": "La frase esatta nel testo che indica il mittente",
@@ -69,7 +69,12 @@ Compila ESATTAMENTE e SOLO il seguente formato JSON (senza commenti o testo fuor
     ]
   }
 }
-IMPORTANTE: Nel campo "citazione_esatta" riporta le parole TESTUALI presenti nel testo. Ritorna SOLO il JSON valido.`;
+REGOLE FONDAMENTALI:
+1. "testoTrascritto" deve contenere TUTTO il testo del documento, trascritto parola per parola. Non riassumere, non abbreviare, non usare puntini di sospensione.
+2. Ogni "citazione_esatta", "citazione_mittente" e "citazione_oggetto" deve essere una sottostringa COPIATA ALLA LETTERA da "testoTrascritto", identica carattere per carattere. Prima di rispondere verifica che ogni citazione compaia davvero dentro "testoTrascritto".
+3. Le citazioni devono essere brevi (da 3 a 15 parole) e prese da un unico punto contiguo del testo, mai ricomposte da frasi diverse.
+4. Se un'informazione non e' presente nel documento, non inventarla: omettila dalla lista e segnalala in "informazioni_mancanti".
+Ritorna SOLO il JSON valido.`;
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',

@@ -904,11 +904,9 @@ transition:transform .22s var(--curva),box-shadow .22s var(--curva)}
             <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path></svg>{{ t.testoOriginale }}
           </div>
           <div id="v-testo" class="carta" style="padding:clamp(18px,4vw,24px);max-height:clamp(300px,52vh,520px);overflow-y:auto;font-family:var(--serif);font-size:16px;line-height:1.75;color:var(--ink-0);animation:entra .4s var(--curva) both">
-            <div style="font-family:var(--sans);font-weight:600;letter-spacing:.04em;color:var(--ink-2);font-size:12px">AGENZIA DELLE ENTRATE-RISCOSSIONE</div>
-            <div style="font-family:var(--sans);color:var(--ink-3);font-size:12px;margin-bottom:12px">Cartella di pagamento n. 077 2026 00123456 78</div>
-            <p style="margin:0 0 12px">Visto il ruolo reso esecutivo dall'<mark id="v-mark-0" style="background-color:transparent;color:inherit;background-image:linear-gradient(90deg,{{ m0c }},{{ m0c }});background-repeat:no-repeat;background-position:0 0;background-size:{{ m0 }};transition:background-size .58s var(--curva);border-radius:3px;padding:2px 1px">ente creditore Comune di Bergamo</mark> in data 12/03/2026, relativo alla <mark id="v-mark-1" style="background-color:transparent;color:inherit;background-image:linear-gradient(90deg,{{ m1c }},{{ m1c }});background-repeat:no-repeat;background-position:0 0;background-size:{{ m1 }};transition:background-size .58s var(--curva);border-radius:3px;padding:2px 1px">tassa sui rifiuti per l'anno d'imposta 2024</mark>, si intima al destinatario il pagamento della <mark id="v-mark-2" style="background-color:transparent;color:inherit;background-image:linear-gradient(90deg,{{ m2c }},{{ m2c }});background-repeat:no-repeat;background-position:0 0;background-size:{{ m2 }};transition:background-size .58s var(--curva);border-radius:3px;padding:2px 1px">somma complessiva di euro 1.284,50</mark>, comprensiva di sanzioni, interessi di mora e oneri di riscossione, entro sessanta giorni dalla notificazione del presente atto e comunque <mark id="v-mark-3" style="background-color:transparent;color:inherit;background-image:linear-gradient(90deg,{{ m3c }},{{ m3c }});background-repeat:no-repeat;background-position:0 0;background-size:{{ m3 }};transition:background-size .58s var(--curva);border-radius:3px;padding:2px 1px">non oltre il 2 agosto 2026</mark>.</p>
-            <p style="margin:0 0 12px">In caso di mancato pagamento entro il termine indicato si procederà all'attivazione delle procedure cautelari ed esecutive previste dalla legge, ivi compresi il <mark id="v-mark-4" style="background-color:transparent;color:inherit;background-image:linear-gradient(90deg,{{ m4c }},{{ m4c }});background-repeat:no-repeat;background-position:0 0;background-size:{{ m4 }};transition:background-size .58s var(--curva);border-radius:3px;padding:2px 1px">fermo amministrativo dei beni mobili registrati</mark> di cui all'art. 86 e l'<mark id="v-mark-5" style="background-color:transparent;color:inherit;background-image:linear-gradient(90deg,{{ m5c }},{{ m5c }});background-repeat:no-repeat;background-position:0 0;background-size:{{ m5 }};transition:background-size .58s var(--curva);border-radius:3px;padding:2px 1px">iscrizione di ipoteca sugli immobili</mark> di proprietà del debitore di cui all'art. 77 del citato decreto.</p>
-            <p style="margin:0">Il destinatario può presentare istanza di rateizzazione ai sensi dell'art. 19 del D.P.R. 602/1973, ovvero <mark id="v-mark-6" style="background-color:transparent;color:inherit;background-image:linear-gradient(90deg,{{ m6c }},{{ m6c }});background-repeat:no-repeat;background-position:0 0;background-size:{{ m6 }};transition:background-size .58s var(--curva);border-radius:3px;padding:2px 1px">proporre ricorso avverso il presente atto</mark> dinanzi alla Corte di giustizia tributaria di primo grado territorialmente competente entro sessanta giorni dalla notificazione.</p>
+            <div style="font-family:var(--sans);font-weight:600;letter-spacing:.04em;color:var(--ink-2);font-size:12px">{{ vMittente }}</div>
+            <div style="font-family:var(--sans);color:var(--ink-3);font-size:12px;margin-bottom:12px">{{ vOggetto }}</div>
+            <p style="margin:0;white-space:pre-wrap"><sc-for list="{{ vSegmenti }}" as="seg" hint-placeholder-count="3"><mark id="{{ seg.id }}" style="background-color:transparent;color:inherit;background-image:linear-gradient(90deg,{{ seg.colore }},{{ seg.colore }});background-repeat:no-repeat;background-position:0 0;background-size:{{ seg.dim }};transition:background-size .58s var(--curva);border-radius:3px;padding:2px 1px">{{ seg.testo }}</mark></sc-for></p>
           </div>
           </div>
           <div style="flex:1 1 280px;min-width:min(100%,280px);display:flex;flex-direction:column;gap:8px;animation:entra .4s var(--curva) .07s both">
@@ -1133,6 +1131,8 @@ class Component extends DCLogic {
   }
   timers = [];
   vScroll = null;
+  verCache = null;
+  TESTO_DEMO = "Visto il ruolo reso esecutivo dall'ente creditore Comune di Bergamo in data 12/03/2026, relativo alla tassa sui rifiuti per l'anno d'imposta 2024, si intima al destinatario il pagamento della somma complessiva di euro 1.284,50, comprensiva di sanzioni, interessi di mora e oneri di riscossione, entro sessanta giorni dalla notificazione del presente atto e comunque non oltre il 2 agosto 2026.\n\nIn caso di mancato pagamento entro il termine indicato si procederà all'attivazione delle procedure cautelari ed esecutive previste dalla legge, ivi compresi il fermo amministrativo dei beni mobili registrati di cui all'art. 86 e l'iscrizione di ipoteca sugli immobili di proprietà del debitore di cui all'art. 77 del citato decreto.\n\nIl destinatario può presentare istanza di rateizzazione ai sensi dell'art. 19 del D.P.R. 602/1973, ovvero proporre ricorso avverso il presente atto dinanzi alla Corte di giustizia tributaria di primo grado territorialmente competente entro sessanta giorni dalla notificazione.";
   ICONE = {
     Landmark: 'M3 22h18M6 18v-7M10 18v-7M14 18v-7M18 18v-7M12 2l8 5H4Z',
     Home: 'm3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2ZM9 22V12h6v10',
@@ -1614,7 +1614,76 @@ this.suScroll = () => {
     return this.d().vd.map((x, i) => ({ etichetta: x.e, valore: x.v, cit: cit[i] }));
   }
   testoIntegrale() {
-    return this.state.testoTrascrittoAttuale || "ente creditore Comune di Bergamo tassa sui rifiuti per l'anno d'imposta 2024 somma complessiva di euro 1.284,50 non oltre il 2 agosto 2026 fermo amministrativo dei beni mobili registrati iscrizione di ipoteca sugli immobili proporre ricorso avverso il presente atto";
+    return this.state.testoTrascrittoAttuale || this.TESTO_DEMO;
+  }
+  normVerifica(s) {
+    const src = String(s == null ? '' : s);
+    let norm = '';
+    const mappa = [];
+    let spazio = false;
+    for (let i = 0; i < src.length; i++) {
+      const base = src[i].normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+      const c = base ? base[0] : '';
+      if (c && /[a-z0-9]/.test(c)) {
+        if (spazio && norm) { norm += ' '; mappa.push(i); }
+        spazio = false;
+        norm += c; mappa.push(i);
+      } else if (norm) spazio = true;
+    }
+    return { norm, mappa };
+  }
+  paroleVerifica(norm) {
+    const out = [];
+    const re = /[a-z0-9]+/g;
+    let m;
+    while ((m = re.exec(norm))) out.push({ p: m[0], da: m.index, a: m.index + m[0].length });
+    return out;
+  }
+  cercaCit(norm, parole, citNorm) {
+    if (!citNorm || !norm) return null;
+    const esatta = norm.indexOf(citNorm);
+    if (esatta >= 0) return { da: esatta, a: esatta + citNorm.length };
+    const cw = citNorm.split(' ').filter(Boolean);
+    if (cw.length < 2 || !parole.length) return null;
+    const insieme = new Set(cw);
+    let best = null;
+    for (let i = 0; i < parole.length; i++) {
+      const fine = Math.min(parole.length, i + cw.length);
+      let hit = 0;
+      for (let k = i; k < fine; k++) if (insieme.has(parole[k].p)) hit++;
+      const punteggio = hit / cw.length;
+      if (!best || punteggio > best.punteggio) best = { da: parole[i].da, a: parole[fine - 1].a, punteggio };
+      if (fine === parole.length) break;
+    }
+    return best && best.punteggio >= 0.68 ? best : null;
+  }
+  analisiVerifica() {
+    const testo = this.testoIntegrale();
+    const dati = this.vDatiDef();
+    const chiave = testo + '\u0000' + dati.map((d) => d.cit || '').join('\u0000');
+    if (this.verCache && this.verCache.chiave === chiave) return this.verCache.val;
+    const { norm, mappa } = this.normVerifica(testo);
+    const parole = this.paroleVerifica(norm);
+    const esiti = dati.map((d, i) => {
+      const r = mappa.length ? this.cercaCit(norm, parole, this.normVerifica(d.cit).norm) : null;
+      if (!r) return { i, ok: false, da: -1, a: -1 };
+      const da = mappa[r.da];
+      const a = (mappa[Math.min(r.a, mappa.length) - 1] || da) + 1;
+      return { i, ok: true, da, a };
+    });
+    const segmenti = [];
+    let cur = 0;
+    esiti.filter((e) => e.ok).sort((x, y) => x.da - y.da).forEach((e) => {
+      if (e.da < cur) return;
+      if (e.da > cur) segmenti.push({ testo: testo.slice(cur, e.da), marcato: false, i: -1 });
+      segmenti.push({ testo: testo.slice(e.da, e.a), marcato: true, i: e.i });
+      cur = e.a;
+    });
+    if (cur < testo.length) segmenti.push({ testo: testo.slice(cur), marcato: false, i: -1 });
+    if (!segmenti.length) segmenti.push({ testo, marcato: false, i: -1 });
+    const val = { esiti, segmenti };
+    this.verCache = { chiave, val };
+    return val;
   }
   scorriA(i) {
     this.timers.push(setTimeout(() => {
@@ -1628,14 +1697,14 @@ this.suScroll = () => {
   }
   avviaVerifica() {
     const dati = this.vDatiDef();
-    const testo = this.testoIntegrale();
+    const esiti = this.analisiVerifica().esiti;
     this.vScroll = null;
     this.vaiSu(false);
     if (this.riduci) { this.setState({ screen: 'verifica', vStep: dati.length, vFase: 'fine', vHover: -1, menu: false }); return; }
     this.setState({ screen: 'verifica', vStep: -1, vFase: 'corsa', vHover: -1, phase: -1, zoom: false, menu: false });
     dati.forEach((d, i) => {
       this.timers.push(setTimeout(() => {
-        this.setState({ vStep: i }, () => { if (testo.indexOf(d.cit) >= 0) this.scorriA(i); });
+        this.setState({ vStep: i }, () => { if (esiti[i] && esiti[i].ok) this.scorriA(i); });
       }, 600 + i * 720));
     });
     this.timers.push(setTimeout(() => this.setState({ vStep: dati.length, vFase: 'sigillo' }), 600 + dati.length * 720));
@@ -1774,8 +1843,8 @@ this.suScroll = () => {
       colore: st.phase >= i ? 'var(--luce-0)' : 'var(--luce-3)',
     }));
     const vStep = st.vStep;
-    const testoInt = this.testoIntegrale();
-    const withPos = this.vDatiDef().map((d, i) => ({ ...d, i, ok: testoInt.indexOf(d.cit) >= 0 }));
+    const analisiVer = this.analisiVerifica();
+    const withPos = this.vDatiDef().map((d, i) => ({ ...d, i, ok: !!(analisiVer.esiti[i] && analisiVer.esiti[i].ok) }));
     const vTot = withPos.length;
     const nOk = withPos.filter((d) => d.ok).length;
     const vDati = withPos.map((d) => {
@@ -1790,11 +1859,15 @@ this.suScroll = () => {
         esci: () => { if (this.state.vHover === d.i) this.setState({ vHover: -1 }); },
       };
     });
-    const marks = {};
-    withPos.forEach((d) => {
-      marks['m' + d.i] = (d.ok && vStep >= d.i) ? '100% 100%' : '0% 100%';
-      marks['m' + d.i + 'c'] = st.vHover === d.i ? 'rgba(53,227,155,.45)' : 'rgba(53,227,155,.28)';
-    });
+    const vSegmenti = analisiVer.segmenti.map((s, k) => ({
+      testo: s.testo,
+      id: s.marcato ? ('v-mark-' + s.i) : ('v-seg-' + k),
+      dim: (s.marcato && vStep >= s.i) ? '100% 100%' : '0% 100%',
+      colore: st.vHover === s.i ? 'rgba(53,227,155,.45)' : 'rgba(53,227,155,.28)',
+    }));
+    const estr = st.estrattoAttuale;
+    const vMittente = (estr && estr.mittente) || this.d().doc.mittente || 'DOCUMENTO';
+    const vOggetto = (estr && estr.oggetto) || this.d().doc.oggetto || '';
     const contatore = withPos.filter((d) => d.ok && vStep > d.i).length + this.d().di + vTot;
     const tuttiOk = nOk === vTot;
     const profilo = st.profilo;
@@ -1895,7 +1968,7 @@ this.suScroll = () => {
     }));
     const mi = t.mod[st.modale] || { titolo: '', sotto: '', azione: '' };
     return {
-      ...marks,
+      vSegmenti, vMittente, vOggetto,
       t, lingua: st.lingua,
       saluto: replaceNome(t.ciao, profilo ? profilo.nome : ''),
       itBg: st.lingua === 'it' ? 'linear-gradient(180deg,#63EEB4,#17C283)' : 'none',
