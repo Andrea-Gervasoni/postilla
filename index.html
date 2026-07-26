@@ -170,7 +170,7 @@ body.scala-grande .testo-piu{padding:0 8px;height:36px;gap:2px}
 .otturatore:active{transform:scale(.96)}
 .otturatore:focus-visible{outline:3px solid var(--v-chiaro);outline-offset:6px}
 .otturatore-anello{animation:respiro 2.6s ease-out infinite}
-.testo-piu{display:flex;align-items:baseline;gap:3px;height:40px;padding:0 12px;border-radius:999px;border:1px solid var(--linea-2);background-image:linear-gradient(180deg,rgba(243,239,228,.14),rgba(243,239,228,.06));color:var(--luce-1);cursor:pointer;transition:transform .2s var(--curva),border-color .2s var(--curva),color .2s var(--curva)}
+.testo-piu{display:flex;align-items:baseline;gap:3px;height:40px;padding:0 12px;border-radius:999px;border:1px solid var(--linea-2);background-color:transparent;background-image:linear-gradient(180deg,rgba(243,239,228,.14),rgba(243,239,228,.06));color:var(--luce-1);cursor:pointer;transition:transform .2s var(--curva),border-color .2s var(--curva),color .2s var(--curva)}
 .testo-piu:hover{transform:translateY(-1px)}
 .testo-piu:focus-visible{outline:3px solid var(--v-chiaro);outline-offset:3px}
 @keyframes anelloRuota{from{transform:rotate(0)}to{transform:rotate(360deg)}}
@@ -763,108 +763,108 @@ body.scala-grande .testo-piu{padding:0 8px;height:36px;gap:2px}
               <span style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:var(--ink-3)">{{ t.scadeIl }}</span>
               <span style="font-family:var(--display);font-weight:700;font-size:{{ dimData }};line-height:1.18;letter-spacing:-.025em;color:var(--ink-0);text-wrap:balance;overflow-wrap:anywhere">{{ t.dataBreve }}<span style="color:var(--ink-3)"> {{ t.anno }}</span></span>
             </div>
-            <div class="carta num-carta" style="padding:clamp(18px,4vw,24px);display:flex;flex-direction:column;gap:6px;border-top:4px solid {{ urg }}">
-              <span style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:var(--ink-3)">{{ t.tempoRimasto }}</span>
-              <span style="display:flex;align-items:baseline;gap:7px"><span style="font-family:var(--display);font-weight:800;font-size:clamp(32px,8.4vw,44px);line-height:1;letter-spacing:-.04em;color:{{ urg }};font-variant-numeric:tabular-nums">{{ giorni }}</span><span style="font-size:11px;letter-spacing:.1em;font-weight:600;text-transform:uppercase;color:var(--ink-3)">{{ t.giorni }}</span></span>
-              <span aria-hidden="true" style="height:4px;border-radius:3px;background-color:rgba(10,31,22,.1);overflow:hidden"><span style="display:block;height:100%;width:{{ barraUrg }};border-radius:3px;background-image:linear-gradient(90deg,{{ urg }},{{ urg }})"></span></span>
-            </div>
+            <sc-if value="{{ haScadenza }}" hint-placeholder-val="{{ true }}">
+              <div class="carta num-carta" style="padding:clamp(18px,4vw,24px);display:flex;flex-direction:column;gap:6px;border-top:4px solid {{ urg }}">
+                <span style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:var(--ink-3)">{{ t.tempoRimasto }}</span>
+                <span style="display:flex;align-items:baseline;gap:7px"><span style="font-family:var(--display);font-weight:800;font-size:clamp(32px,8.4vw,44px);line-height:1;letter-spacing:-.04em;color:{{ urg }};font-variant-numeric:tabular-nums">{{ giorni }}</span><span style="font-size:11px;letter-spacing:.1em;font-weight:600;text-transform:uppercase;color:var(--ink-3)">{{ t.giorni }}</span></span>
+                <span aria-hidden="true" style="height:4px;border-radius:3px;background-color:rgba(10,31,22,.1);overflow:hidden"><span style="display:block;height:100%;width:{{ barraUrg }};border-radius:3px;background-image:linear-gradient(90deg,{{ urg }},{{ urg }})"></span></span>
+              </div>
+            </sc-if>
           </div>
           <button class="btn btn-p" onClick="{{ vaiVerifica }}" style="width:100%;min-height:62px;font-size:17px;animation:entra .4s var(--curva) .14s both">
             <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>
             {{ t.verificaInfo }}
           </button>
 
-          <div class="carta sezione" style="padding:clamp(20px,4.5vw,28px);animation:entra .4s var(--curva) .21s both">
-            <h2 style="margin:0 0 18px;display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:clamp(21px,5.2vw,25px);line-height:1.2;letter-spacing:-.02em;color:var(--ink-0)">
-              <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#12B87A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
-              {{ t.cosaDeviFare }}
-            </h2>
-            <div style="display:flex;flex-direction:column;gap:22px">
-              <div class="voce"><span class="vc" aria-hidden="true">1</span>
-                <div style="display:flex;flex-direction:column;gap:6px">
-                  <div style="font-size:17px;line-height:1.45;font-weight:600;color:var(--ink-0)">{{ t.paga }}</div>
-                  <div style="font-size:15px;line-height:1.5;color:var(--ink-2)">{{ t.pagaSotto }}</div>
-                  <div class="carta carta-2" style="border-radius:12px;border-left:3px solid var(--linea-c);box-shadow:none;padding:14px 16px;font-size:15px;line-height:1.55;font-style:italic;font-family:var(--serif);color:var(--ink-2)">«si intima al destinatario il pagamento della somma complessiva di euro 1.284,50 [...] non oltre il 2 agosto 2026»</div>
-                </div>
-              </div>
-              <div class="voce"><span class="vc" aria-hidden="true">2</span>
-                <div style="display:flex;flex-direction:column;gap:6px">
-                  <div style="font-size:17px;line-height:1.45;font-weight:600;color:var(--ink-0)">{{ t.rate }}</div>
-                  <div style="font-size:15px;line-height:1.5;color:var(--ink-2)">{{ t.rateSotto }}</div>
-                  <div class="carta carta-2" style="border-radius:12px;border-left:3px solid var(--linea-c);box-shadow:none;padding:14px 16px;font-size:15px;line-height:1.55;font-style:italic;font-family:var(--serif);color:var(--ink-2)">«Il destinatario può presentare istanza di rateizzazione ai sensi dell'art. 19 del D.P.R. 602/1973»</div>
-                </div>
+          <sc-if value="{{ haObblighi }}" hint-placeholder-val="{{ true }}">
+            <div class="carta sezione" style="padding:clamp(20px,4.5vw,28px);animation:entra .4s var(--curva) .21s both">
+              <h2 style="margin:0 0 18px;display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:clamp(21px,5.2vw,25px);line-height:1.2;letter-spacing:-.02em;color:var(--ink-0)">
+                <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#12B87A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+                {{ t.cosaDeviFare }}
+              </h2>
+              <div style="display:flex;flex-direction:column;gap:22px">
+                <sc-for list="{{ listaObblighi }}" as="o" hint-placeholder-count="2">
+                  <div class="voce"><span class="vc" aria-hidden="true">{{ o.n }}</span>
+                    <div style="display:flex;flex-direction:column;gap:6px">
+                      <div style="font-size:17px;line-height:1.45;font-weight:600;color:var(--ink-0)">{{ o.titolo }}</div>
+                      <div style="font-size:15px;line-height:1.5;color:var(--ink-2)">{{ o.sotto }}</div>
+                      <sc-if value="{{ o.haCit }}" hint-placeholder-val="{{ true }}">
+                        <div class="carta carta-2" style="border-radius:12px;border-left:3px solid var(--linea-c);box-shadow:none;padding:14px 16px;font-size:15px;line-height:1.55;font-style:italic;font-family:var(--serif);color:var(--ink-2)">{{ o.cit }}</div>
+                      </sc-if>
+                    </div>
+                  </div>
+                </sc-for>
               </div>
             </div>
-          </div>
+          </sc-if>
 
-          <div class="carta sezione" style="border-left:5px solid var(--rosso);padding:clamp(20px,4.5vw,28px);animation:entra .4s var(--curva) .28s both">
-            <h2 style="margin:0 0 18px;display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:clamp(21px,5.2vw,25px);line-height:1.2;letter-spacing:-.02em;color:var(--ink-0)">
-              <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF6E5C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
-              {{ t.cosaSuccede }}
-            </h2>
-            <div style="display:flex;flex-direction:column;gap:20px">
-              <div class="voce"><span class="vc" aria-hidden="true">1</span>
-                <div><div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:#C63C2F">{{ t.consA }}</div><div style="font-size:17px;line-height:1.45;font-weight:600;color:var(--ink-0)">{{ t.consA2 }}</div></div>
-              </div>
-              <div class="voce"><span class="vc" aria-hidden="true">2</span>
-                <div><div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:#C63C2F">{{ t.consB }}</div><div style="font-size:17px;line-height:1.45;font-weight:600;color:var(--ink-0)">{{ t.consB2 }}</div></div>
-              </div>
-              <div class="voce"><span class="vc" aria-hidden="true">3</span>
-                <div><div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:#C63C2F">{{ t.consC }}</div><div style="font-size:17px;line-height:1.45;font-weight:600;color:var(--ink-0)">{{ t.consC2 }}</div></div>
+          <sc-if value="{{ haConseguenze }}" hint-placeholder-val="{{ true }}">
+            <div class="carta sezione" style="border-left:5px solid var(--rosso);padding:clamp(20px,4.5vw,28px);animation:entra .4s var(--curva) .28s both">
+              <h2 style="margin:0 0 18px;display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:clamp(21px,5.2vw,25px);line-height:1.2;letter-spacing:-.02em;color:var(--ink-0)">
+                <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF6E5C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+                {{ t.cosaSuccede }}
+              </h2>
+              <div style="display:flex;flex-direction:column;gap:20px">
+                <sc-for list="{{ listaConseguenze }}" as="c" hint-placeholder-count="3">
+                  <div class="voce"><span class="vc" aria-hidden="true">{{ c.n }}</span>
+                    <div><div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:#C63C2F">{{ c.quando }}</div><div style="font-size:17px;line-height:1.45;font-weight:600;color:var(--ink-0)">{{ c.testo }}</div></div>
+                  </div>
+                </sc-for>
               </div>
             </div>
-          </div>
+          </sc-if>
 
-          <div class="carta sezione" style="border-left:5px solid var(--v-medio);padding:clamp(20px,4.5vw,28px);animation:entra .4s var(--curva) .35s both">
-            <h2 style="margin:0 0 18px;display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:clamp(21px,5.2vw,25px);line-height:1.2;letter-spacing:-.02em;color:var(--ink-0)">
-              <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#12B87A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="M7 21h10"></path><path d="M12 3v18"></path><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path></svg>
-              {{ t.cosaPuoi }}
-            </h2>
-            <div style="display:flex;flex-direction:column;gap:20px">
-              <div class="voce"><span class="vc" aria-hidden="true">1</span>
-                <div><div style="font-size:17px;line-height:1.45;font-weight:600;color:var(--ink-0)">{{ t.puoiA }}</div><div style="font-size:15px;line-height:1.5;color:var(--ink-2)">{{ t.puoiA2 }}</div></div>
-              </div>
-              <div class="voce"><span class="vc" aria-hidden="true">2</span>
-                <div><div style="font-size:17px;line-height:1.45;font-weight:600;color:var(--ink-0)">{{ t.puoiB }}</div><div style="font-size:15px;line-height:1.5;color:var(--ink-2)">{{ t.puoiB2 }}</div></div>
-              </div>
-              <div class="voce"><span class="vc" aria-hidden="true">3</span>
-                <div><div style="font-size:17px;line-height:1.45;font-weight:600;color:var(--ink-0)">{{ t.puoiC }}</div><div style="font-size:15px;line-height:1.5;color:var(--ink-2)">{{ t.puoiC2 }}</div></div>
+          <sc-if value="{{ haDiritti }}" hint-placeholder-val="{{ true }}">
+            <div class="carta sezione" style="border-left:5px solid var(--v-medio);padding:clamp(20px,4.5vw,28px);animation:entra .4s var(--curva) .35s both">
+              <h2 style="margin:0 0 18px;display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:clamp(21px,5.2vw,25px);line-height:1.2;letter-spacing:-.02em;color:var(--ink-0)">
+                <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#12B87A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="M7 21h10"></path><path d="M12 3v18"></path><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path></svg>
+                {{ t.cosaPuoi }}
+              </h2>
+              <div style="display:flex;flex-direction:column;gap:20px">
+                <sc-for list="{{ listaDiritti }}" as="d" hint-placeholder-count="3">
+                  <div class="voce"><span class="vc" aria-hidden="true">{{ d.n }}</span>
+                    <div><div style="font-size:17px;line-height:1.45;font-weight:600;color:var(--ink-0)">{{ d.titolo }}</div><div style="font-size:15px;line-height:1.5;color:var(--ink-2)">{{ d.sotto }}</div></div>
+                  </div>
+                </sc-for>
               </div>
             </div>
-          </div>
+          </sc-if>
 
-          <div class="vetro" style="background-image:var(--grana),linear-gradient(164deg,rgba(255,180,67,.18),rgba(255,180,67,.06));border-color:rgba(255,180,67,.3);padding:clamp(20px,4.5vw,28px);animation:entra .4s var(--curva) .42s both">
-            <h2 style="margin:0 0 16px;display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:clamp(21px,5.2vw,25px);line-height:1.2;letter-spacing:-.02em;color:var(--luce-0)">
-              <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFB443" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg>
-              {{ t.nonDice }}
-            </h2>
-            <div style="display:flex;flex-direction:column;gap:12px;font-size:17px;line-height:1.55;color:var(--luce-1)">
-              <div>{{ t.nd1 }}</div>
-              <div>{{ t.nd2 }}</div>
-              <div>{{ t.nd3 }}</div>
+          <sc-if value="{{ haMancanti }}" hint-placeholder-val="{{ true }}">
+            <div class="vetro" style="background-image:var(--grana),linear-gradient(164deg,rgba(255,180,67,.18),rgba(255,180,67,.06));border-color:rgba(255,180,67,.3);padding:clamp(20px,4.5vw,28px);animation:entra .4s var(--curva) .42s both">
+              <h2 style="margin:0 0 16px;display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:clamp(21px,5.2vw,25px);line-height:1.2;letter-spacing:-.02em;color:var(--luce-0)">
+                <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFB443" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg>
+                {{ t.nonDice }}
+              </h2>
+              <div style="display:flex;flex-direction:column;gap:12px;font-size:17px;line-height:1.55;color:var(--luce-1)">
+                <sc-for list="{{ listaMancanti }}" as="m" hint-placeholder-count="3">
+                  <div>{{ m.testo }}</div>
+                </sc-for>
+              </div>
             </div>
-          </div>
+          </sc-if>
 
-          <div class="carta carta-2" style="padding:clamp(20px,4.5vw,28px);animation:entra .4s var(--curva) .49s both">
-            <h2 style="margin:0 0 16px;font-family:var(--display);font-weight:700;font-size:clamp(21px,5.2vw,25px);line-height:1.2;letter-spacing:-.02em;color:var(--ink-0)">{{ t.semplici }}</h2>
-            <div style="display:flex;flex-direction:column;gap:12px">
-              <div style="font-size:17px;line-height:1.5;color:var(--ink-0)">{{ t.s1 }}</div>
-              <div style="font-size:17px;line-height:1.5;color:var(--ink-0)">{{ t.s2 }}</div>
-              <div style="font-size:17px;line-height:1.5;color:var(--ink-0)">{{ t.s3 }}</div>
-              <div style="font-size:17px;line-height:1.5;color:var(--ink-0)">{{ t.s4 }}</div>
-              <div style="font-size:17px;line-height:1.5;color:var(--ink-0)">{{ t.s5 }}</div>
+          <sc-if value="{{ haSemplice }}" hint-placeholder-val="{{ true }}">
+            <div class="carta carta-2" style="padding:clamp(20px,4.5vw,28px);animation:entra .4s var(--curva) .49s both">
+              <h2 style="margin:0 0 16px;font-family:var(--display);font-weight:700;font-size:clamp(21px,5.2vw,25px);line-height:1.2;letter-spacing:-.02em;color:var(--ink-0)">{{ t.semplici }}</h2>
+              <div style="display:flex;flex-direction:column;gap:12px">
+                <sc-for list="{{ listaSemplice }}" as="s" hint-placeholder-count="4">
+                  <div style="font-size:17px;line-height:1.5;color:var(--ink-0)">{{ s.testo }}</div>
+                </sc-for>
+              </div>
             </div>
-          </div>
+          </sc-if>
 
-          <div class="carta" style="padding:clamp(20px,4.5vw,28px);animation:entra .4s var(--curva) .56s both">
-            <h2 style="margin:0 0 16px;font-family:var(--display);font-weight:700;font-size:clamp(21px,5.2vw,25px);line-height:1.2;letter-spacing:-.02em;color:var(--ink-0)">{{ t.termini }}</h2>
-            <div style="display:flex;flex-direction:column;gap:14px">
-              <div><span style="font-size:17px;font-weight:600;color:var(--ink-0)">Cartella esattoriale</span> <span style="font-size:15px;line-height:1.5;color:var(--ink-2)">{{ t.def1 }}</span></div>
-              <div><span style="font-size:17px;font-weight:600;color:var(--ink-0)">Fermo amministrativo</span> <span style="font-size:15px;line-height:1.5;color:var(--ink-2)">{{ t.def2 }}</span></div>
-              <div><span style="font-size:17px;font-weight:600;color:var(--ink-0)">Ipoteca</span> <span style="font-size:15px;line-height:1.5;color:var(--ink-2)">{{ t.def3 }}</span></div>
-              <div><span style="font-size:17px;font-weight:600;color:var(--ink-0)">Rateizzazione</span> <span style="font-size:15px;line-height:1.5;color:var(--ink-2)">{{ t.def4 }}</span></div>
+          <sc-if value="{{ haGlossario }}" hint-placeholder-val="{{ true }}">
+            <div class="carta" style="padding:clamp(20px,4.5vw,28px);animation:entra .4s var(--curva) .56s both">
+              <h2 style="margin:0 0 16px;font-family:var(--display);font-weight:700;font-size:clamp(21px,5.2vw,25px);line-height:1.2;letter-spacing:-.02em;color:var(--ink-0)">{{ t.termini }}</h2>
+              <div style="display:flex;flex-direction:column;gap:14px">
+                <sc-for list="{{ listaGlossario }}" as="g" hint-placeholder-count="4">
+                  <div><span style="font-size:17px;font-weight:600;color:var(--ink-0)">{{ g.termine }}</span> <span style="font-size:15px;line-height:1.5;color:var(--ink-2)">{{ g.spiegazione }}</span></div>
+                </sc-for>
+              </div>
             </div>
-          </div>
+          </sc-if>
 
           <div style="display:flex;flex-direction:column;gap:12px;animation:entra .4s var(--curva) .63s both">
             <sc-if value="{{ salvaAperto }}" hint-placeholder-val="{{ false }}">
@@ -1282,6 +1282,10 @@ class Component extends DCLogic {
       termini: 'Termini', def1: '— la lettera con cui lo Stato ti chiede di pagare un debito.',
       def2: '— un blocco sulla tua auto: non puoi venderla né usarla.', def3: '— un vincolo sulla casa messo a garanzia del debito.',
       def4: '— il pagamento diviso in rate mensili.',
+      senzaScadenza: 'Senza scadenza',
+      citPaga: '\u00absi intima al destinatario il pagamento della somma complessiva di euro 1.284,50 [...] non oltre il 2 agosto 2026\u00bb',
+      citRate: "\u00abIl destinatario pu\u00f2 presentare istanza di rateizzazione ai sensi dell'art. 19 del D.P.R. 602/1973\u00bb",
+      glossarioDemo: [{ termine: 'Cartella esattoriale', spiegazione: '\u2014 la lettera con cui lo Stato ti chiede di pagare un debito.' }, { termine: 'Fermo amministrativo', spiegazione: '\u2014 un blocco sulla tua auto: non puoi venderla n\u00e9 usarla.' }, { termine: 'Ipoteca', spiegazione: '\u2014 un vincolo sulla casa messo a garanzia del debito.' }, { termine: 'Rateizzazione', spiegazione: '\u2014 il pagamento diviso in rate mensili.' }],
       scegliRacc: 'Scegli il raccoglitore', salvaQui: 'Salva qui', salvaRacc: 'Salva nel raccoglitore',
       tornaBacheca: 'Torna alla bacheca', chiudi: 'Chiudi', ingrandisci: 'Ingrandisci il documento',
       altDoc: 'Il documento che hai caricato', confermate: 'informazioni confermate nel testo originale',
@@ -1392,6 +1396,10 @@ class Component extends DCLogic {
       termini: 'Terms', def1: '— the letter the State uses to demand payment of a debt.',
       def2: '— a block on your car: you can neither sell nor drive it.', def3: '— a charge on your home securing the debt.',
       def4: '— payment split into monthly instalments.',
+      senzaScadenza: 'No deadline',
+      citPaga: '\u00abthe addressee is required to pay the total sum of euro 1,284.50 [...] no later than 2 August 2026\u00bb',
+      citRate: "\u00abthe addressee may apply for payment by instalments under art. 19 of Presidential Decree 602/1973\u00bb",
+      glossarioDemo: [{ termine: 'Tax collection notice', spiegazione: '\u2014 the letter the State uses to demand payment of a debt.' }, { termine: 'Administrative hold', spiegazione: '\u2014 a block on your car: you can neither sell nor drive it.' }, { termine: 'Charge on property', spiegazione: '\u2014 a charge on your home securing the debt.' }, { termine: 'Instalment plan', spiegazione: '\u2014 payment split into monthly instalments.' }],
       scegliRacc: 'Choose a folder', salvaQui: 'Save here', salvaRacc: 'Save to a folder',
       tornaBacheca: 'Back to the board', chiudi: 'Close', ingrandisci: 'Enlarge the document',
       altDoc: 'The document you uploaded', confermate: 'items confirmed in the original text',
@@ -1907,6 +1915,7 @@ this.suScroll = () => {
     
     // SOVRASCRITTURA DINAMICA DELLE CARD SE L'API HA RISPOSTO CON I DATI REALI
     const est = st.estrattoAttuale;
+    let listeReali = null;
     if (est) {
       t.sintesi = est.sintesi_operativa || est.sintesi || est.riassunto || t.sintesi;
       const impGrezzo = est.importo_totale || est.importo || (est.obblighi && est.obblighi[0] && (est.obblighi[0].importo || est.obblighi[0].valore));
@@ -1915,55 +1924,75 @@ this.suScroll = () => {
       const dRes = this.dataBreve(est.data_scadenza_iso || est.scadenza_iso, dataGrezza, t.mesi);
       if (dRes) { t.dataBreve = dRes.giorno; t.anno = dRes.anno; }
       
-      const obb = est.obblighi || est.azioni_da_fare || [];
-      if (obb[0]) { t.paga = obb[0].titolo || obb[0].azione || obb[0].spiegazione || t.paga; t.pagaSotto = obb[0].dettaglio || obb[0].modalita || obb[0].scadenza || t.pagaSotto; }
-      if (obb[1]) { t.rate = obb[1].titolo || obb[1].azione || obb[1].spiegazione || t.rate; t.rateSotto = obb[1].dettaglio || obb[1].modalita || obb[1].scadenza || t.rateSotto; }
-      
-      const cons = est.conseguenze || est.conseguenze_inerzia || [];
-      if (cons[0]) { t.consA = cons[0].titolo || cons[0].quando || 'Conseguenza 1'; t.consA2 = cons[0].spiegazione || cons[0].testo || t.consA2; }
-      if (cons[1]) { t.consB = cons[1].titolo || cons[1].quando || 'Conseguenza 2'; t.consB2 = cons[1].spiegazione || cons[1].testo || t.consB2; }
-      if (cons[2]) { t.consC = cons[2].titolo || cons[2].quando || 'Conseguenza 3'; t.consC2 = cons[2].spiegazione || cons[2].testo || t.consC2; }
-      
-      const dir = est.diritti || est.diritti_e_ricorsi || [];
-      if (dir[0]) { t.puoiA = dir[0].titolo || dir[0].azione || 'Diritto 1'; t.puoiA2 = dir[0].spiegazione || dir[0].dettaglio || t.puoiA2; }
-      if (dir[1]) { t.puoiB = dir[1].titolo || dir[1].azione || 'Diritto 2'; t.puoiB2 = dir[1].spiegazione || dir[1].dettaglio || t.puoiB2; }
-      if (dir[2]) { t.puoiC = dir[2].titolo || dir[2].azione || 'Diritto 3'; t.puoiC2 = dir[2].spiegazione || dir[2].dettaglio || t.puoiC2; }
-      
-      const manc = est.informazioni_mancanti || est.mancanti || est.non_specificato || [];
-      if (manc[0]) t.nd1 = typeof manc[0] === 'string' ? manc[0] : (manc[0].spiegazione || manc[0].testo || t.nd1);
-      if (manc[1]) t.nd2 = typeof manc[1] === 'string' ? manc[1] : (manc[1].spiegazione || manc[1].testo || t.nd2);
-      if (manc[2]) t.nd3 = typeof manc[2] === 'string' ? manc[2] : (manc[2].spiegazione || manc[2].testo || t.nd3);
-      
-      const semp = est.spiegazione_semplice || est.spiegazione || est.semplice || [];
-      if (Array.isArray(semp)) {
-        if (semp[0]) t.s1 = typeof semp[0] === 'string' ? semp[0] : (semp[0].testo || t.s1);
-        if (semp[1]) t.s2 = typeof semp[1] === 'string' ? semp[1] : (semp[1].testo || t.s2);
-        if (semp[2]) t.s3 = typeof semp[2] === 'string' ? semp[2] : (semp[2].testo || t.s3);
-        if (semp[3]) t.s4 = typeof semp[3] === 'string' ? semp[3] : (semp[3].testo || t.s4);
-        if (semp[4]) t.s5 = typeof semp[4] === 'string' ? semp[4] : (semp[4].testo || t.s5);
-      } else if (typeof semp === 'string') {
-        t.s1 = semp; t.s2 = ''; t.s3 = ''; t.s4 = ''; t.s5 = '';
-      }
-      
-      const glos = est.glossario || est.termini || [];
-      if (glos[0]) t.def1 = '— ' + (glos[0].spiegazione || glos[0].definizione || t.def1);
-      if (glos[1]) t.def2 = '— ' + (glos[1].spiegazione || glos[1].definizione || t.def2);
-      if (glos[2]) t.def3 = '— ' + (glos[2].spiegazione || glos[2].definizione || t.def3);
-      if (glos[3]) t.def4 = '— ' + (glos[3].spiegazione || glos[3].definizione || t.def4);
+      // Le sezioni sono guidate dai dati reali: prima venivano sovrascritti slot
+      // fissi del dizionario dimostrativo, per cui un documento senza obblighi o
+      // scadenze lasciava in pagina la cartella di esempio.
+      const testoDi = (x, ...chiavi) => {
+        if (x == null) return '';
+        if (typeof x === 'string') return x.trim();
+        for (const k of chiavi) if (x[k]) return String(x[k]).trim();
+        return '';
+      };
+      const arr = (x) => Array.isArray(x) ? x : (x ? [x] : []);
+
+      listeReali = {
+        obblighi: arr(est.obblighi || est.azioni_da_fare).map((o) => ({
+          titolo: testoDi(o, 'titolo', 'azione', 'spiegazione'),
+          sotto: testoDi(o, 'dettaglio', 'modalita', 'scadenza'),
+          cit: testoDi(o, 'citazione_esatta', 'citazione'),
+        })).filter((o) => o.titolo),
+        conseguenze: arr(est.conseguenze || est.conseguenze_inerzia).map((c) => ({
+          quando: testoDi(c, 'titolo', 'quando'),
+          testo: testoDi(c, 'spiegazione', 'testo'),
+        })).filter((c) => c.testo || c.quando),
+        diritti: arr(est.diritti || est.diritti_e_ricorsi).map((d) => ({
+          titolo: testoDi(d, 'titolo', 'azione', 'spiegazione'),
+          sotto: testoDi(d, 'spiegazione', 'dettaglio'),
+        })).filter((d) => d.titolo),
+        mancanti: arr(est.informazioni_mancanti || est.mancanti || est.non_specificato)
+          .map((m) => testoDi(m, 'spiegazione', 'testo')).filter(Boolean),
+        semplice: arr(est.spiegazione_semplice || est.spiegazione || est.semplice)
+          .map((s) => testoDi(s, 'testo', 'spiegazione')).filter(Boolean),
+        glossario: arr(est.glossario || est.termini).map((g) => ({
+          termine: testoDi(g, 'termine', 'parola'),
+          spiegazione: testoDi(g, 'spiegazione', 'definizione'),
+        })).filter((g) => g.termine && g.spiegazione),
+      };
     }
 
     const replaceN = (str, n) => String(str).split('{n}').join(String(n));
     const replaceNome = replaceN;
     const screen = st.screen;
-    
+
+    // Senza estrazione reale si mostra il documento dimostrativo per intero.
+    const liste = listeReali || {
+      obblighi: [{ titolo: t.paga, sotto: t.pagaSotto, cit: t.citPaga }, { titolo: t.rate, sotto: t.rateSotto, cit: t.citRate }],
+      conseguenze: [{ quando: t.consA, testo: t.consA2 }, { quando: t.consB, testo: t.consB2 }, { quando: t.consC, testo: t.consC2 }],
+      diritti: [{ titolo: t.puoiA, sotto: t.puoiA2 }, { titolo: t.puoiB, sotto: t.puoiB2 }, { titolo: t.puoiC, sotto: t.puoiC2 }],
+      mancanti: [t.nd1, t.nd2, t.nd3],
+      semplice: [t.s1, t.s2, t.s3, t.s4, t.s5],
+      glossario: t.glossarioDemo || [],
+    };
+    const numerata = (v, i) => ({ ...v, n: String(i + 1) });
+    const listaObblighi = liste.obblighi.map(numerata).map((o) => ({ ...o, haCit: !!o.cit }));
+    const listaConseguenze = liste.conseguenze.map(numerata);
+    const listaDiritti = liste.diritti.map(numerata);
+    const listaMancanti = liste.mancanti.filter(Boolean).map((testo) => ({ testo }));
+    const listaSemplice = liste.semplice.filter(Boolean).map((testo) => ({ testo }));
+    const listaGlossario = liste.glossario;
+
+    // La scadenza esiste solo se il documento ne indica una: senza questo
+    // controllo un testo senza scadenze mostrava comunque il conto alla rovescia.
+    const isoScad = est ? (est.data_scadenza_iso || est.scadenza_iso || '') : '';
     let giorni = Math.max(1, Math.round(this.props.giorniRimanenti ?? 9));
-    if (est && (est.data_scadenza_iso || est.data_scadenza || est.scadenza_iso)) {
-      const gCalcolati = this.giorniDa(est.data_scadenza_iso || est.data_scadenza || est.scadenza_iso);
-      if (!isNaN(gCalcolati) && gCalcolati !== 0) giorni = Math.max(0, gCalcolati);
+    let haScadenza = !est;
+    if (est && /^\d{4}-\d{2}-\d{2}$/.test(isoScad)) {
+      const gCalcolati = this.giorniDa(isoScad);
+      if (!isNaN(gCalcolati)) { giorni = Math.max(0, gCalcolati); haScadenza = true; }
     }
-    
-    const urg = this.coloreUrg(giorni);
-    const urgEtichetta = giorni < 15 ? t.urg[0] : giorni < 45 ? t.urg[1] : t.urg[2];
+
+    const urg = haScadenza ? this.coloreUrg(giorni) : 'var(--luce-3)';
+    const urgEtichetta = haScadenza ? (giorni < 15 ? t.urg[0] : giorni < 45 ? t.urg[1] : t.urg[2]) : t.senzaScadenza;
     const stile = [
       { icona: this.ICONE.Camera, tinta: 'var(--v)', velo: 'rgba(53,227,155,.12)', velo2: 'rgba(53,227,155,.3)', linea: true, ritardo: '0ms' },
       { icona: this.ICONE.Sparkle, tinta: 'var(--ambra)', velo: 'rgba(255,180,67,.12)', velo2: 'rgba(255,180,67,.3)', linea: true, ritardo: '90ms' },
@@ -2130,6 +2159,11 @@ this.suScroll = () => {
       isVerifica: screen === 'verifica', isRaccoglitore: screen === 'raccoglitore',
       passi, fasi, zoom: st.zoom, giorni: String(giorni), urg, urgEtichetta,
       barraUrg: Math.max(6, Math.min(100, Math.round((giorni / 60) * 100))) + '%',
+      listaObblighi, listaConseguenze, listaDiritti, listaMancanti, listaSemplice, listaGlossario,
+      haObblighi: listaObblighi.length > 0, haConseguenze: listaConseguenze.length > 0,
+      haDiritti: listaDiritti.length > 0, haMancanti: listaMancanti.length > 0,
+      haSemplice: listaSemplice.length > 0, haGlossario: listaGlossario.length > 0,
+      haScadenza,
       intestazioneDoc: [est ? est.mittente : this.d().doc.mittente, est ? est.oggetto : this.d().doc.oggetto].filter(Boolean).join(' · '),
       dimTitolo: this.dimPer(t.sintesi, [[48, 'clamp(28px,7.2vw,40px)'], [88, 'clamp(24px,5.6vw,32px)'], [140, 'clamp(21px,4.6vw,27px)'], [Infinity, 'clamp(19px,4vw,23px)']]),
       dimImporto: this.dimPer(t.importo, [[9, 'clamp(30px,8vw,42px)'], [16, 'clamp(24px,6vw,32px)'], [28, 'clamp(20px,4.6vw,25px)'], [Infinity, 'clamp(17px,3.8vw,20px)']]),
