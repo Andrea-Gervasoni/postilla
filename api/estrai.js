@@ -79,7 +79,7 @@ IMPORTANTE: Nel campo "citazione_esatta" riporta le parole TESTUALI presenti nel
         'content-type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'claude-3-5-sonnet-20241022',
+        model: 'claude-3-5-haiku-20241022',
         max_tokens: 2500,
         temperature: 0.1,
         messages: [
